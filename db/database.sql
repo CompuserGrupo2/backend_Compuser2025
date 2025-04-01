@@ -94,6 +94,9 @@ CREATE TABLE Calificaciones (
     id_ser INT
 );
 
+ALTER TABLE Calificaciones
+ADD respuesta_calificacion VARCHAR(100);
+
 -- Tabla Empleados: almacena información de los empleados
 CREATE TABLE Empleados (
     id_empleado INT AUTO_INCREMENT PRIMARY KEY,
@@ -174,7 +177,11 @@ VALUES
 INSERT INTO Usuarios (usuario, contraseña) 
 VALUES 
 ('admin', 'admin123'),
-('empleado1', 'password123');
+('empleado1', 'password123'),
+('Snaijder Vargas', 'Noni123'),
+('David Oporta', 'ldavidor7'),
+('Heidy Luna', 'tini250'),
+('Iris Ortega', 'tini250');
 
 -- Inserciones en servicios (independiente)
 INSERT INTO Servicios (descripcion, costo) 

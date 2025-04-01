@@ -35,18 +35,12 @@ export const obtenerClienteID = async (req, res) => {
 export const insertarCliente = async (req, res) => {
     try{
         const {nombre, apellido, direccion, tipo_cli, telefono, cedula} = req.body;
-        const [result] = await pool.query('INSERT INTO Clientes (nombre, apellido, direccion, tipo_cli, telefono, cedula) VALUES (?,?,?,?,?,?)', [nombre, apellido, direccion, tipo_cli, telefono, cedula]);
+        const [result] = await pool.query(
+            'INSERT INTO Clientes (nombre, apellido, direccion, tipo_cli, telefono, cedula) VALUES (?,?,?,?,?,?)',
+            [nombre, apellido, direccion, tipo_cli, telefono, cedula]
+        );
 
-        if(result.affectedRows <= 0){
-            return res.status(500).json({
-                message: `Error al guardar datos del cliente.`
-            });
-        } else {
-            console.log(result);
-            return res.status(200).json({
-                message: `Los datos del cliente con id ${result.insertId} se han guardado exitosamente.`
-            });
-        }
+        res.status(201).json({ id_cliente: result.insertId });
     } catch (error) {
         return res.status(500).json({
             message: 'Ha ocurrido un error al guardar los datos del cliente.',

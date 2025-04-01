@@ -4,14 +4,11 @@ import { obtenerServicios, obtenerServicioID, insertarServicio, eliminarServicio
 const router = Router();
 
 //Ruta para obtener todos los servicios
-router.get('/servicios', obtenerServicios);
+router.get('/obtenerservicios', obtenerServicios);
 
 router.get('/servicio/:id', obtenerServicioID);
 
-router.post('/servicios', insertarServicio);
+router.post('/insertarservicio', insertarServicio);
 
-router.patch('/servicios/:id', actualizarServicio);
-
-router.delete('/servicios/:id', eliminarServicio);
 
 export default router;
