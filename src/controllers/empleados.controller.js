@@ -49,51 +49,49 @@ export const insertarEmpleado = async (req, res) => {
     }
 };
 
-//Eliminar un empleado
+// Eliminar un empleado por su ID
 export const eliminarEmpleado = async (req, res) => {
-    try{
-        const {id} = req.params;
-        const [result] = await pool.query('DELETE FROM Empleados WHERE id_empleado = ?', [id]);
-        console.log(result);
-
-        if(result.affectedRows <= 0){
-            return res.status(404).json({
-                message: `Error al eliminar. Empleado con id ${id_empleado} no encontrado.`
-            });
-        } else{
-            return res.status(200).json({
-                message: `Los datos del empleado con id ${id_empleado} se han eliminado exitosamente.`
-            });
-        }
-    } catch (error){
-        return res.status(500).json({
-            message: 'Ha ocurrido un error el eliminar los datos del empleado.'
+    try {
+      const [result] = await pool.query('DELETE FROM empleados WHERE id_empleado = ?', [req.params.id]);
+  
+      if (result.affectedRows === 0) {
+        return res.status(404).json({
+          mensaje: `Error al eliminar el empleado. El ID ${req.params.id} no fue encontrado.`
         });
-    }
-};
-
-//Actualizar un empleado
-export const actualizarEmpleado = async (req, res) => {
-    try{
-        //throw new Error ('Error al actualizar.');
-        const {id} = req.params;
-        const {nombre, apellido, direccion, telefono, cedula} = req.body;
-
-        const [result] = await pool.query('UPDATE Empleados SET nombre = IFNULL(?, nombre), apellido = IFNULL(?, apellido), direccion = IFNULL(?, direccion), telefono = IFNULL(?, telefono), cedula = IFNULL(?, cedula) WHERE id_empleado = ?', [nombre, apellido, direccion, telefono, cedula]);
-
-        if(result.affectedRows === 0){
-            return res.status(404).json({
-                message: `Error al actualizar. Empleado con id ${id_empleado} no encontrado.`
-            });
-        }
-
-        const [rows] = await pool.query('SELECT * FROM Empleados WHERE id_empleado = ?', [id])
-
-        console.log(result);
-        res.json(rows[0]);
+      }
+  
+      res.status(204).send(); // Respuesta sin contenido para indicar éxito
     } catch (error) {
-        return res.status(500).json({
-            message: 'Ha ocurrido un error al actualizar los datos del empleado.'
-        });
+      return res.status(500).json({
+        mensaje: 'Ha ocurrido un error al eliminar el empleado.',
+        error: error
+      });
     }
-};
+  };
+  
+  // Actualizar un empleado por su ID (parcial o completa)
+  export const actualizarEmpleado = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const datos = req.body;
+  
+      const [resultado] = await pool.query(
+        'UPDATE empleados SET ? WHERE id_empleado = ?',
+        [datos, id]
+      );
+  
+      if (resultado.affectedRows === 0) {
+        return res.status(404).json({
+          mensaje: `El empleado con ID ${id} no existe.`,
+        });
+      }
+  
+      res.status(204).send(); // Respuesta sin contenido para indicar éxito
+    } catch (error) {
+        console.log("Error al actualizarempleado:", error);
+      return res.status(500).json({
+        mensaje: 'Error al actualizar el empleado.',
+        error: error,
+      });
+    }
+  };

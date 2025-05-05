@@ -10,5 +10,9 @@ router.get('/servicio/:id', obtenerServicioID);
 
 router.post('/insertarservicio', insertarServicio);
 
+router.delete('/eliminarservicio/:id', eliminarServicio);
+
+router.patch('/actualizarservicio/:id', actualizarServicio);
+
 
 export default router;

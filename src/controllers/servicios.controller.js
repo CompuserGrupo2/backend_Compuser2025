@@ -47,51 +47,49 @@ export const insertarServicio = async (req, res) => {
     }
 };
 
-//Eliminar un servicio
+// Eliminar un servicio por su ID
 export const eliminarServicio = async (req, res) => {
-    try{
-        const {id} = req.params;
-        const [result] = await pool.query('DELETE FROM Servicios WHERE id_ser = ?', [id]);
-        console.log(result);
-
-        if(result.affectedRows <= 0){
-            return res.status(404).json({
-                message: `Error al eliminar. Servicio con id ${id_ser} no encontrado.`
-            });
-        } else{
-            return res.status(200).json({
-                message: `Los datos del servicio con id ${id_ser} se han eliminado exitosamente.`
-            });
-        }
-    } catch (error){
-        return res.status(500).json({
-            message: 'Ha ocurrido un error el eliminar los datos del servicio.'
+    try {
+      const [result] = await pool.query('DELETE FROM servicios WHERE id_ser = ?', [req.params.id]);
+  
+      if (result.affectedRows === 0) {
+        return res.status(404).json({
+          mensaje: `Error al eliminar el servicio. El ID ${req.params.id} no fue encontrado.`
         });
-    }
-};
-
-//Actualizar un servicio
-export const actualizarServicio = async (req, res) => {
-    try{
-        //throw new Error ('Error al actualizar.');
-        const {id} = req.params;
-        const {descripcion, costo} = req.body;
-
-        const [result] = await pool.query('UPDATE Servicios SET descripcion = IFNULL(?, descripcion), costo = IFNULL(?, costo) WHERE id_ser = ?', [descripcion, costo]);
-
-        if(result.affectedRows === 0){
-            return res.status(404).json({
-                message: `Error al actualizar. Servicio con id ${id_ser} no encontrado.`
-            });
-        }
-
-        const [rows] = await pool.query('SELECT * FROM Servicios WHERE id_ser = ?', [id])
-
-        console.log(result);
-        res.json(rows[0]);
+      }
+  
+      res.status(204).send(); // Respuesta sin contenido para indicar éxito
     } catch (error) {
-        return res.status(500).json({
-            message: 'Ha ocurrido un error al actualizar los datos del servicio.'
-        });
+      return res.status(500).json({
+        mensaje: 'Ha ocurrido un error al eliminar el servicio.',
+        error: error
+      });
     }
-};
+  };
+  
+  // Actualizar un servicio por su ID (parcial o completa)
+  export const actualizarServicio = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const datos = req.body;
+  
+      const [resultado] = await pool.query(
+        'UPDATE servicios SET ? WHERE id_ser = ?',
+        [datos, id]
+      );
+  
+      if (resultado.affectedRows === 0) {
+        return res.status(404).json({
+          mensaje: `El servicio con ID ${id} no existe.`,
+        });
+      }
+  
+      res.status(204).send(); // Respuesta sin contenido para indicar éxito
+    } catch (error) {
+        console.log("Error al actualizarservicio:", error);
+      return res.status(500).json({
+        mensaje: 'Error al actualizar el servicio.',
+        error: error,
+      });
+    }
+  };
