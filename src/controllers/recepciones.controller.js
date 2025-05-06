@@ -8,7 +8,7 @@ export const obtenerRecepciones = async (req, res) => {
         r.fecha,
         r.estado_recepcion,
         CONCAT(c.nombre, ' ', c.apellido) AS cliente,
-        CONCAT(eq.tipo, ' ', eq.marca, ' ', eq.color) AS equipo,
+        CONCAT(eq.tipo, ' ', eq.marca, ' ', eq.modelo, ' ', eq.color) AS equipo,
         CONCAT(em.nombre, ' ', em.apellido) AS empleado
       FROM Recepcion r
       INNER JOIN Clientes c ON r.id_cliente = c.id_cliente

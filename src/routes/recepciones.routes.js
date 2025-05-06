@@ -6,7 +6,7 @@ const router = Router();
 //Ruta para obtener todos los servicios
 router.get('/obtenerrecepciones', obtenerRecepciones);
 
-router.post('/registrarRecepcion', registrarRecepcion);
+router.post('/registrarrecepcion', registrarRecepcion);
 
 router.delete('/eliminarrecepcion/:id', eliminarRecepcion);
 

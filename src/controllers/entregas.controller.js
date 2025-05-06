@@ -8,7 +8,7 @@ export const obtenerEntregas = async (req, res) => {
         en.fecha,
         en.estado_entrega,
         CONCAT(c.nombre, ' ', c.apellido) AS cliente,
-        CONCAT(eq.tipo, ' ', eq.marca, ' ', eq.color) AS equipo,
+        CONCAT(eq.tipo, ' ', eq.marca, ' ', eq.modelo, ' ', eq.color) AS equipo,
         CONCAT(em.nombre, ' ', em.apellido) AS empleado
       FROM Entrega_de_equipo en
       INNER JOIN Clientes c ON en.id_cliente = c.id_cliente
