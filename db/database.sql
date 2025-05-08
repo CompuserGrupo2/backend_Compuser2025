@@ -146,7 +146,7 @@ ADD CONSTRAINT fk_equipo_diagnostico FOREIGN KEY (id_equipocomp) REFERENCES Equi
 
 -- Relación Detalle_diagnostico -> Diagnostico
 ALTER TABLE Detalle_diagnostico
-ADD CONSTRAINT fk_diag_detalle FOREIGN KEY (id_diag) REFERENCES Diagnostico(id_diag);
+ADD CONSTRAINT fk_diag_detalle FOREIGN KEY (id_diag) REFERENCES Diagnostico(id_diag) ON DELETE CASCADE;
 
 -- Relación Detalle_diagnostico -> Servicios
 ALTER TABLE Detalle_diagnostico
