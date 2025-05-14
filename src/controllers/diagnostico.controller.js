@@ -15,7 +15,7 @@ export const obtenerDiagnosticoConDetalles = async (req, res) => {
       FROM Diagnostico d
       INNER JOIN Clientes c ON d.id_cliente = c.id_cliente
       INNER JOIN Empleados e ON d.id_empleado = e.id_empleado
-      INNER JOIN Detalle_diagnostico dd ON d.id_diag = dd.id_detallediag
+      INNER JOIN Detalle_diagnostico dd ON d.id_diag = dd.id_diag
       INNER JOIN EquipoComputarizado eq ON d.id_equipocomp = eq.id_equipocomp
       INNER JOIN Servicios s ON dd.id_ser = s.id_ser
     `);
@@ -39,18 +39,12 @@ export const obtenerDiagnosticos = async (req, res) => {
         CONCAT(eq.tipo, ' ', eq.marca, ' ', eq.modelo, ' ', eq.color) AS equipo,
         d.descripcion,
         CONCAT(e.nombre, ' ', e.apellido) AS empleado,
-        COALESCE(SUM(dd.costo), 0) AS total
+        d.fecha,
+        d.total
       FROM Diagnostico d
       INNER JOIN Clientes c ON d.id_cliente = c.id_cliente
       INNER JOIN Empleados e ON d.id_empleado = e.id_empleado
-      INNER JOIN EquipoComputarizado eq ON d.id_equipocomp = eq.id_equipocomp
-      LEFT JOIN Detalle_diagnostico dd ON d.id_diag = dd.id_diag
-      GROUP BY 
-        d.id_diag,
-        c.nombre, c.apellido,
-        eq.tipo, eq.marca, eq.modelo, eq.color,
-        d.descripcion,
-        e.nombre, e.apellido;
+      INNER JOIN EquipoComputarizado eq ON d.id_equipocomp = eq.id_equipocomp;
     `);
     
     res.json(result);
@@ -84,12 +78,12 @@ export const eliminarDiagnostico = async (req, res) => {
 
 // Registrar un nuevo diagnóstico con detalles
 export const registrarDiagnostico = async (req, res) => {
-  const { descripcion, id_equipocomp, id_cliente, id_empleado, detalles } = req.body;
+  const { descripcion, id_equipocomp, id_cliente, id_empleado, fecha, total, detalles } = req.body;
 
   try {
     const [diagnosticoResult] = await pool.query(
-      'INSERT INTO Diagnostico (descripcion, id_equipocomp, id_cliente, id_empleado) VALUES (?, ?, ?, ?)',
-      [descripcion, id_equipocomp, id_cliente, id_empleado]
+      'INSERT INTO Diagnostico (descripcion, id_equipocomp, id_cliente, id_empleado, fecha, total) VALUES (?, ?, ?, ?, ?, ?)',
+      [descripcion, id_equipocomp, id_cliente, id_empleado, fecha, total]
     );
 
     const id_diag = diagnosticoResult.insertId;
@@ -103,6 +97,7 @@ export const registrarDiagnostico = async (req, res) => {
 
     res.json({ mensaje: 'Diagnóstico registrado correctamente' });
   } catch (error) {
+    console.error('Error al registrar diagnóstico:', error);
     res.status(500).json({ mensaje: 'Error al registrar el diagnóstico', error: error.message });
   }
 };
@@ -110,14 +105,14 @@ export const registrarDiagnostico = async (req, res) => {
 // Actualizar un diagnóstico con sus detalles
 export const actualizarDiagnostico = async (req, res) => {
   const { id_diag } = req.params;
-  const { descripcion, id_equipocomp, id_cliente, id_empleado, detalles } = req.body;
+  const { descripcion, id_equipocomp, id_cliente, id_empleado, fecha, total, detalles } = req.body;
 
   try {
 
     // Actualizar diagnóstico
     const [diagnosticoResult] = await pool.query(
-      'UPDATE Diagnostico SET descripcion = ?, id_equipocomp = ?, id_cliente = ?, id_empleado = ? WHERE id_diag = ?',
-      [descripcion, id_equipocomp, id_cliente, id_empleado, id_diag]
+      'UPDATE Diagnostico SET descripcion = ?, id_equipocomp = ?, id_cliente = ?, id_empleado = ?, fecha = ?, total = ? WHERE id_diag = ?',
+      [descripcion, id_equipocomp, id_cliente, id_empleado, fecha, total, id_diag]
     );
 
     if (diagnosticoResult.affectedRows === 0) {
@@ -141,7 +136,7 @@ export const actualizarDiagnostico = async (req, res) => {
   }
 };
 
-// Obtener una venta específica por id_venta
+// Obtener un diagnostico específico por id_diag
 export const obtenerDiagnosticoPorId = async (req, res) => {
   try {
     const { id_diag } = req.params;
@@ -152,7 +147,9 @@ export const obtenerDiagnosticoPorId = async (req, res) => {
         descripcion,
         id_equipocomp,
         id_cliente,
-        id_empleado
+        id_empleado,
+        fecha,
+        total
       FROM Diagnostico
       WHERE id_diag = ?
     `, [id_diag]);

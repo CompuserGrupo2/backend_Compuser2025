@@ -9,7 +9,7 @@ export const obtenerDetallesDiagnostico = async (req, res) => {
       SELECT 
         dd.id_detallediag,
         dd.id_diag,
-        s.descripcion AS servicio,
+        s.descripcion,
         dd.costo
       FROM Detalle_diagnostico dd
       INNER JOIN Servicios s ON dd.id_ser = s.id_ser

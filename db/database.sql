@@ -51,10 +51,12 @@ CREATE TABLE Entrega_de_equipo (
 -- Tabla Diagnostico: almacena información del diagnostico de los equipos computarizados
 CREATE TABLE Diagnostico (
     id_diag INT AUTO_INCREMENT PRIMARY KEY,
-    descripcion VARCHAR(40),
+    descripcion VARCHAR(100),
     id_equipocomp INT,
     id_cliente INT,
-    id_empleado INT
+    id_empleado INT,
+    fecha DATE,
+    total FLOAT
 );
 
 -- Tabla Detalle de diagnostico: almacena información del diagnostico
