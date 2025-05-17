@@ -14,6 +14,7 @@ export const obtenerEntregas = async (req, res) => {
       INNER JOIN Clientes c ON en.id_cliente = c.id_cliente
       INNER JOIN Empleados em ON en.id_empleado = em.id_empleado
       INNER JOIN EquipoComputarizado eq ON en.id_equipocomp = eq.id_equipocomp
+      ORDER BY id_entregaequipo;
     `);
     
     res.json(result);

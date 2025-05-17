@@ -24,15 +24,16 @@ CREATE TABLE Usuarios (
 -- Tabla Servicios: almacena información de los servicios disponibles
 CREATE TABLE Servicios (
     id_ser INT AUTO_INCREMENT PRIMARY KEY,
-    descripcion VARCHAR(40),
-    costo FLOAT
+    descripcion VARCHAR(80),
+    costo FLOAT,
+    imagen LONGTEXT
 );
 
 -- Tabla Recepcion: almacena información de las recepciones de cada cliente
 CREATE TABLE Recepcion (
     id_recepcion INT AUTO_INCREMENT PRIMARY KEY,
     fecha DATE,
-    estado_recepcion VARCHAR(30),
+    estado_recepcion VARCHAR(100),
     id_cliente INT,
     id_equipocomp INT,
     id_empleado INT
@@ -42,7 +43,7 @@ CREATE TABLE Recepcion (
 CREATE TABLE Entrega_de_equipo (
     id_entregaequipo INT AUTO_INCREMENT PRIMARY KEY,
     fecha DATE,
-    estado_entrega VARCHAR(30),
+    estado_entrega VARCHAR(100),
     id_equipocomp INT,
     id_cliente INT,
     id_empleado INT
@@ -93,11 +94,9 @@ CREATE TABLE Calificaciones (
     fecha_calificacion DATE,
     comentario VARCHAR(100),
 	id_cliente INT,
-    id_ser INT
+    id_ser INT,
+    respuesta_calificacion VARCHAR(100)
 );
-
-ALTER TABLE Calificaciones
-ADD respuesta_calificacion VARCHAR(100);
 
 -- Tabla Empleados: almacena información de los empleados
 CREATE TABLE Empleados (

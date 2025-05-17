@@ -44,7 +44,8 @@ export const obtenerDiagnosticos = async (req, res) => {
       FROM Diagnostico d
       INNER JOIN Clientes c ON d.id_cliente = c.id_cliente
       INNER JOIN Empleados e ON d.id_empleado = e.id_empleado
-      INNER JOIN EquipoComputarizado eq ON d.id_equipocomp = eq.id_equipocomp;
+      INNER JOIN EquipoComputarizado eq ON d.id_equipocomp = eq.id_equipocomp
+      ORDER BY d.id_diag;
     `);
     
     res.json(result);

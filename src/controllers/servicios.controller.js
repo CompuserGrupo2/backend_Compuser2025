@@ -34,10 +34,10 @@ export const obtenerServicioID = async (req, res) => {
 //Insertar un servicio
 export const insertarServicio = async (req, res) => {
     try{
-        const {descripcion, costo} = req.body;
+        const {descripcion, costo, imagen} = req.body;
         const [result] = await pool.query(
-            'INSERT INTO Servicios (descripcion, costo) VALUES (?,?)', 
-            [descripcion, costo]);
+            'INSERT INTO Servicios (descripcion, costo, imagen) VALUES (?,?,?)', 
+            [descripcion, costo, imagen]);
         res.status(201).json({ id_ser: result.insertId });
     } catch (error) {
         return res.status(500).json({
