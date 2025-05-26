@@ -9,6 +9,7 @@ import rutasEquipos from './routes/equiposcomputarizados.routes.js';
 import rutasEntregas from './routes/entregas.routes.js';
 import rutasRecepciones from './routes/recepciones.routes.js';
 import rutasDetallesDiagnosticos from './routes/detalles_diagnosticos.routes.js';
+import rutasEstadisticas from './routes/estadisticas.routes.js';
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.use('/api', rutasRecepciones);
 app.use('/api', rutasDetallesDiagnosticos);
 app.use(express.json({ limit: '10mb' })); // Aumenta a 10 MB
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
+app.use('/api', rutasEstadisticas);
 
 // Manejo de rutas no encontradas
 app.use((req, res, next) => {
