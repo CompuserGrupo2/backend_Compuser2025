@@ -25,9 +25,9 @@ router.get('/equiposportipoymarca', EquiposPorTipoyMarca);
 
 router.get('/diagnosticosporequipos', DiagnosticosPorEquipos);
 
-router.get('/cantidadusosporservicio', CantidadUsosPorServicio);
+router.get('/cantidadusosporservicio', CantidadUsosPorServicio); 
 
-router.get('/gananciastotalesporservicios', GananciasTotalesPorServicios);
+router.get('/gananciastotalesporservicios', GananciasTotalesPorServicios); //
 
 router.get('/equiposingresadosportipoymarca', EquiposIngresadosPorTipoyMarca);
 
