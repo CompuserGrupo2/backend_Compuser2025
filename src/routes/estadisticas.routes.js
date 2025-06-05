@@ -27,7 +27,7 @@ router.get('/diagnosticosporequipos', DiagnosticosPorEquipos);
 
 router.get('/cantidadusosporservicio', CantidadUsosPorServicio); 
 
-router.get('/gananciastotalesporservicios', GananciasTotalesPorServicios); //
+router.get('/gananciastotalesporservicios', GananciasTotalesPorServicios);
 
 router.get('/equiposingresadosportipoymarca', EquiposIngresadosPorTipoyMarca);
 
@@ -35,7 +35,7 @@ router.get('/diagnosticospordia', DiagnosticosPorDia);
 
 router.get('/promediodiagnosticosporempleados', PromedioDiagnosticosPorEmpleados);
 
-router.get('/diagnosticostotaleseigresosportrimestreyanio', DiagnosticosTotalesEIngresosPorTrimestreyAnio);
+router.get('/diagnosticostotaleseingresosportrimestreyanio', DiagnosticosTotalesEIngresosPorTrimestreyAnio);
 
 router.get('/clientesconmasdetresdiagnosticos', ClientesConMasDeTresDiagnosticos);
 
